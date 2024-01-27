@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  task:
+    image: task_api
+    container_name: task_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '7701:80'
+  
+  task_db:
+    image: postgres:latest
+    container_name: task_db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    restart: always
+    volumes:
+      - task_db_data:/var/lib/postgresql/data/
+
+volumes:
+   task_db_data:
