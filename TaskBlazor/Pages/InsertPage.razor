@@ -21,7 +21,7 @@
 
     private async Task Register()
     {
-        var response = await client.PostAsJsonAsync("https://localhost:7200/api/Task", taskModel);
+        var response = await client.PostAsJsonAsync("http://localhost:7701/api/Task", taskModel);
         if (response.IsSuccessStatusCode)
         {
             navMn.NavigateTo("/tasks");

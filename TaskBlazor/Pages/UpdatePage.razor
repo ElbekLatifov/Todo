@@ -34,14 +34,14 @@
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        tasks = await Client.GetFromJsonAsync<List<Entities.Task>>("https://localhost:7200/api/Task");
+        tasks = await Client.GetFromJsonAsync<List<Entities.Task>>("http://localhost:7701/api/Task");
         if(tasks != null && tasks.Any(p=>p.Id == Id))
         task = tasks.First(p => p.Id == Id);
     }
 
     private async Task Update()
     {
-        await Client.PutAsJsonAsync<TaskModel>($"https://localhost:7200/api/Task/{Id}", taskModel);
+        await Client.PutAsJsonAsync<TaskModel>($"http://localhost:7701/api/Task/{Id}", taskModel);
         Navigate.NavigateTo("/tasks");
     }
 }

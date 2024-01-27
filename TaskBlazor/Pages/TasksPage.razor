@@ -49,7 +49,7 @@ else
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        task = await client.GetFromJsonAsync<List<Entities.Task>>("https://localhost:7200/api/Task");
+        task = await client.GetFromJsonAsync<List<Entities.Task>>("http://localhost:7701/api/Task");
     }
 
     void PutMe()
@@ -65,7 +65,7 @@ else
 
     private async System.Threading.Tasks.Task Delete(Guid id)
     {
-        await client.DeleteAsync($"https://localhost:7200/api/Task/{id}");
+        await client.DeleteAsync($"http://localhost:7701/api/Task/{id}");
         await OnInitializedAsync();
     }
 
