@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.7'
 
 services:
   task:
@@ -9,7 +9,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - '7701:80'
-  
+    networks:
+      - api_network
+
   task_db:
     image: postgres:latest
     container_name: task_db
@@ -20,6 +22,12 @@ services:
     restart: always
     volumes:
       - task_db_data:/var/lib/postgresql/data/
+    networks:
+       - api_network
 
 volumes:
    task_db_data:
+   
+networks:
+   api_network:
+      driver: bridge

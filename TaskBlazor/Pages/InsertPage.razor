@@ -1,0 +1,33 @@
+﻿@page "/add"
+@inject NavigationManager navMn
+@inject HttpClient client
+@using TaskBlazor.Models
+
+
+<h3>InsertPage</h3>
+
+<form style="width: 400px ;margin: auto">
+    <div class="form-floating mb-3">
+        <input @bind="taskModel.Title" type="text" class="form-control" id="floatingInput" placeholder="Task name">
+        <input @bind="taskModel.Description" type="text" class="form-control" id="floatingInput" placeholder="Task discription">
+        <input @bind="taskModel.Priority" type="text" class="form-control" id="floatingInput" placeholder="Task priority">
+        <input @bind="taskModel.Deadline" type="datetime" class="form-control" id="floatingInput" placeholder="Task deadline">
+    </div>
+    <button class="form-control btn btn-success" type="button" @onclick="async () => await Register()">Add task</button>
+</form>
+
+@code {
+    public TaskModel taskModel = new TaskModel();
+
+    private async Task Register()
+    {
+        var response = await client.PostAsJsonAsync("https://localhost:7200/api/Task", taskModel);
+        if (response.IsSuccessStatusCode)
+        {
+            navMn.NavigateTo("/tasks");
+        }
+    }
+
+    
+
+}

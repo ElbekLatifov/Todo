@@ -8,7 +8,7 @@ namespace TaskAPI.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=taskdb;User Id=postgres;Password=postgres;");
+            optionsBuilder.UseNpgsql("Server=task_db;Port=5432;Database=taskdb;User Id=postgres;Password=postgres;");
         }
 
         public DbSet<Entities.Task> Tasks { get; set; }

@@ -5,7 +5,7 @@
 namespace TaskAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Enit1 : Migration
+    public partial class U2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

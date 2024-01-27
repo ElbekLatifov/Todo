@@ -1,0 +1,76 @@
+﻿@page "/tasks"
+@inject NavigationManager nav
+@inject HttpClient client
+@using TaskBlazor.Entities
+
+<PageTitle>Shops</PageTitle>
+<h1 style="text-align:center;">Shops</h1>
+<button class="btn btn-secondary" @onclick="PutMe" style="text-align:end; text-decoration:dotted; text-decoration-color:revert; color:aqua;">Add new task</button>
+<br />
+<br />
+@if (task == null)
+{
+    <center>
+        <div class="spinner-grow text-primary" role="status" style="width:20rem;height:20rem;margin:5%;">
+            <span class="visually-hidden" style="font-size:20%;">Loading...</span>
+        </div>
+    </center>
+    <center>
+        <button class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
+    </center>
+}
+else
+{
+
+    foreach (var taskcha in task!)
+    {
+        <div class="row" style="display:flex;">
+            <div class="col-sm-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="card-title"><strong>@taskcha.Title</strong></h1>
+                        <p class="card-text">@taskcha.State</p>
+                        <button @onclick="()=> GoToTask(taskcha.Id)" class="btn btn-primary">Go to shop</button>
+                        <button @onclick="async ()=> await Delete(taskcha.Id)" class="btn btn-danger">Delete</button>
+                        <button @onclick="()=> Update(taskcha.Id)" class="btn btn-success">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+    }
+}
+
+@code {
+    public List<Entities.Task>? task = new List<Entities.Task>();
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        task = await client.GetFromJsonAsync<List<Entities.Task>>("https://localhost:7200/api/Task");
+    }
+
+    void PutMe()
+    {
+        nav.NavigateTo("/add");
+    }
+
+    private void GoToTask(Guid id)
+    {
+        nav.NavigateTo($"/task/{id}");
+    }
+
+
+    private async System.Threading.Tasks.Task Delete(Guid id)
+    {
+        await client.DeleteAsync($"https://localhost:7200/api/Task/{id}");
+        await OnInitializedAsync();
+    }
+
+    private void Update(Guid id)
+    {
+        nav.NavigateTo($"/update/{id}");
+    }
+}

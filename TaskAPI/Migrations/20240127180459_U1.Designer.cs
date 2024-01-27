@@ -12,8 +12,8 @@ using TaskAPI.Context;
 namespace TaskAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240127071350_Enit3")]
-    partial class Enit3
+    [Migration("20240127180459_U1")]
+    partial class U1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

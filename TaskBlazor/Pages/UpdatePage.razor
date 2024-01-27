@@ -1,0 +1,47 @@
+﻿@page "/update/{Id:guid}"
+@using TaskBlazor.Models
+@inject NavigationManager Navigate
+@inject HttpClient Client
+
+<h3>DeletePage</h3>
+
+@if(task != null)
+{
+    <form style="width: 400px ;margin: auto">
+        <div class="form-floating mb-3">
+            <label>@task.Title</label>
+            <input @bind="taskModel.Title" type="text" class="form-control" id="floatingInput">
+            <label>@task.Description</label>
+            <input @bind="taskModel.Description" type="text" class="form-control" id="floatingInput">
+            <label>@task.Priority</label>
+            <input @bind="taskModel.Priority" type="text" class="form-control" id="floatingInput">
+            <label>@task.Deadline</label>
+            <input @bind="taskModel.Deadline" type="datetime" class="form-control" id="floatingInput">
+        </div>
+        <button class="form-control btn btn-success" type="button" @onclick="async () => await Update()">Update task</button>
+    </form>
+}
+
+
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+    public List<Entities.Task>? tasks = new List<Entities.Task>();
+    public Entities.Task task = new Entities.Task();
+
+    private TaskModel taskModel = new TaskModel();
+
+    protected override async System.Threading.Tasks.Task OnInitializedAsync()
+    {
+        tasks = await Client.GetFromJsonAsync<List<Entities.Task>>("https://localhost:7200/api/Task");
+        if(tasks != null && tasks.Any(p=>p.Id == Id))
+        task = tasks.First(p => p.Id == Id);
+    }
+
+    private async Task Update()
+    {
+        await Client.PutAsJsonAsync<TaskModel>($"https://localhost:7200/api/Task/{Id}", taskModel);
+        Navigate.NavigateTo("/tasks");
+    }
+}

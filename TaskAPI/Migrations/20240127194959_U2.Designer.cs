@@ -12,8 +12,8 @@ using TaskAPI.Context;
 namespace TaskAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240127065527_Enit")]
-    partial class Enit
+    [Migration("20240127194959_U2")]
+    partial class U2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace TaskAPI.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("Deadline")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
