@@ -3,22 +3,30 @@
 @inject NavigationManager Navigate
 @inject HttpClient Client
 
-<h3>DeletePage</h3>
 
-@if(task != null)
-{
-    <form style="width: 400px ;margin: auto">
-        <div class="form-floating mb-3">
-            <label>@task.Title</label>
-            <input @bind="taskModel.Title" type="text" class="form-control" id="floatingInput">
-            <label>@task.Description</label>
-            <input @bind="taskModel.Description" type="text" class="form-control" id="floatingInput">
-            <label>@task.Deadline</label>
-            <input @bind="taskModel.Deadline" type="datetime" class="form-control" id="floatingInput">
+<center>
+    <h3>Update Task</h3>
+</center>
+
+
+<center>
+    <EditForm Model="taskModel">
+        <DataAnnotationsValidator />
+        <div>
+            <label for="Title" class="form-label">Title</label>
+            <InputText @bind-Value="taskModel.Title" class="form-control" style="width:40%;">@task.Title</InputText>
+            <ValidationMessage For="() => taskModel.Title" /><br /><br />
+            <label for="Desciption" class="form-label">Description</label>
+            <InputTextArea @bind-Value="taskModel.Description" class="form-control" style="width:40%;">@task.Description</InputTextArea>
+            <ValidationMessage For="() => taskModel.Description" /><br /><br />
+            <label for="Deadline" class="form-label">Deadline</label>
+            <InputDate @bind-Value="taskModel.Deadline" style="width:40%;">@task.Deadline</InputDate> <br /><br /><br />
+            <button class="form-control btn btn-success" type="button" @onclick="async () => await Update()" style="width:40%;">Update task</button>
         </div>
-        <button class="form-control btn btn-success" type="button" @onclick="async () => await Update()">Update task</button>
-    </form>
-}
+
+    </EditForm>
+</center>
+
 
 
 

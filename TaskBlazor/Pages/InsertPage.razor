@@ -6,32 +6,28 @@
 @using TaskBlazor.Models
 @using System.Net
 
+<center>
+    <h3>New Task</h3>
+</center>
 
-<h3>InsertPage</h3>
+<center>
+    <EditForm Model="taskModel">
+        <DataAnnotationsValidator />
+        <div>
+            <label for="Title" class="form-label">Title</label>
+            <InputText @bind-Value="taskModel.Title" class="form-control" style="width:40%;"></InputText>
+            <ValidationMessage For="() => taskModel.Title" /><br />
+            <label for="Desciption" class="form-label">Description</label>
+            <InputTextArea @bind-Value="taskModel.Description" class="form-control" style="width:40%;"></InputTextArea>
+            <ValidationMessage For="() => taskModel.Description" /><br /><br />
+            <label for="Deadline" class="form-label">Deadline</label><br />
+            <InputDate @bind-Value="taskModel.Deadline" style="width:40%;">@DateTime.UtcNow</InputDate> <br /><br /><br />
+            <button class="form-control btn btn-success" type="button" @onclick="async () => await Register()" style="width:40%;">Add task</button>
+        </div>
 
-<EditForm Model="taskModel">
-    <DataAnnotationsValidator/>
-    <div>
-        <label for="Title" class="form-label">Title</label>
-        <InputText @bind-Value="taskModel.Title" class="form-control"></InputText>
-        <ValidationMessage For="() => taskModel.Title" />
-        <label for="Desciption" class="form-label">Description</label>
-        <InputTextArea @bind-Value="taskModel.Description" class="form-control"></InputTextArea>
-        <ValidationMessage For="() => taskModel.Description"/>
-        <InputDate @bind-Value="taskModel.Deadline"/>
-        <button class="form-control btn btn-success" type="button" @onclick="async () => await Register()">Add task</button>
-    </div>
-    
-</EditForm>
+    </EditForm>
+</center>
 
-@* <form style="width: 400px ;margin: auto">
-    <div class="form-floating mb-3">
-        <input @bind="taskModel.Title" type="text" class="form-control" id="floatingInput" placeholder="Task name">
-        <input @bind="taskModel.Description" type="text" class="form-control" id="floatingInput" placeholder="Task discription">
-        <input @bind="taskModel.Deadline" type="datetime" class="form-control" id="floatingInput" placeholder="Task deadline">
-    </div>
-    
-</form> *@
 
 @code {
     public TaskModel taskModel = new TaskModel();

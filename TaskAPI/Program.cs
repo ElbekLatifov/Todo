@@ -6,6 +6,12 @@ using TaskAPI.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//var logger = new LoggerConfiguration()
+//    .WriteTo.File("log.txt", LogEventLevel.Information, rollingInterval: RollingInterval.Day)
+//    .CreateLogger();
+
+//builder.Logging.AddSerilog(logger);
+
 // Add services to the container.
 
 builder.Services.AddControllers();

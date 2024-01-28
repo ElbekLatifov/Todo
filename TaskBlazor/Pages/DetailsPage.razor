@@ -1,0 +1,31 @@
+﻿@page "/task/details/{Id:guid}"
+
+@using TaskBlazor.Models
+@inject NavigationManager Navigate
+@inject HttpClient Client
+
+<center>
+    <h3>Task details</h3>
+</center>
+
+<div>
+    <h2>Title: @task.Title</h2>
+</div>
+<div>
+    <h5>Description: @task.Description</h5>
+</div>
+<div>
+    <h3 style="color:red">Deadline: @task.Deadline</h3>
+</div>
+
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+    public Entities.Task? task = new Entities.Task();
+
+    protected override async Task OnInitializedAsync()
+    {
+        task = await Client.GetFromJsonAsync<Entities.Task>($"http://localhost:7701/api/Task/{Id}");
+    }
+}

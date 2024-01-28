@@ -4,7 +4,7 @@
 @using TaskBlazor.Entities
 
 <PageTitle>Shops</PageTitle>
-<h1 style="text-align:center;">Shops</h1>
+<h1 style="text-align:center;">Tasks</h1>
 <button class="btn btn-secondary" @onclick="PutMe" style="text-align:end; text-decoration:dotted; text-decoration-color:revert; color:aqua;">Add new task</button>
 <br />
 <br />
@@ -27,17 +27,17 @@ else
 
     foreach (var taskcha in task!)
     {
-        <div class="row" style="display:flex;">
-            <div class="col-sm-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h1 class="card-title"><strong>@taskcha.Title</strong></h1>
-                        <p class="card-text">@taskcha.State</p>
-                        <button @onclick="()=> GoToTask(taskcha.Id)" class="btn btn-primary">Go to shop</button>
-                        <button @onclick="async ()=> await Delete(taskcha.Id)" class="btn btn-danger">Delete</button>
-                        <button @onclick="()=> Update(taskcha.Id)" class="btn btn-success">Update</button>
-                    </div>
-                </div>
+        <div style="display:flex; justify-content:center; border: 3px solid black; width: 100%; height: 50px;">
+            <div style="width: 40%; margin-right:50px;display:flex; justify-content:left;">
+                 <h3 style="text-align:left; left:0;">@taskcha.Title</h3>
+            </div>
+            <div style="width: 20%">
+                <h6 style="text-align:center; color:gray;">@taskcha.State</h6>
+            </div>
+            <div style="width: 30%; right:0; left:auto; display:flex; justify-content:right;">
+                <button @onclick="()=> GoToTask(taskcha.Id)" class="btn btn-primary" style="margin: 2px 0;">Details</button>
+                <button @onclick="async ()=> await Delete(taskcha.Id)" class="btn btn-danger" style="margin: 2px 0;">Delete</button>
+                <button @onclick="()=> Update(taskcha.Id)" class="btn btn-success" style="margin: 2px 0;">Update</button>
             </div>
         </div>
         <br />
@@ -59,7 +59,7 @@ else
 
     private void GoToTask(Guid id)
     {
-        nav.NavigateTo($"/task/{id}");
+        nav.NavigateTo($"/task/details/{id}");
     }
 
 
