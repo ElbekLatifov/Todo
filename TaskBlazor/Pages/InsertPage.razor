@@ -10,23 +10,45 @@
     <h3>New Task</h3>
 </center>
 
-<center>
-    <EditForm Model="taskModel">
-        <DataAnnotationsValidator />
-        <div>
-            <label for="Title" class="form-label">Title</label>
-            <InputText @bind-Value="taskModel.Title" class="form-control" style="width:40%;"></InputText>
-            <ValidationMessage For="() => taskModel.Title" /><br />
-            <label for="Desciption" class="form-label">Description</label>
-            <InputTextArea @bind-Value="taskModel.Description" class="form-control" style="width:40%;"></InputTextArea>
-            <ValidationMessage For="() => taskModel.Description" /><br /><br />
-            <label for="Deadline" class="form-label">Deadline</label><br />
-            <InputDate @bind-Value="taskModel.Deadline" style="width:40%;">@DateTime.UtcNow</InputDate> <br /><br /><br />
-            <button class="form-control btn btn-success" type="button" @onclick="async () => await Register()" style="width:40%;">Add task</button>
-        </div>
 
-    </EditForm>
-</center>
+<EditForm Model="taskModel">
+    <DataAnnotationsValidator />
+    <hr />
+    <div class="form-group row">
+        <label for="title" class="col-sm-2 col-form-label">
+            Title
+        </label>
+        <div class="col-sm-10">
+            <InputText id="title" class="form-control" placeholder="Task title"
+            @bind-Value="taskModel.Title" />
+            <ValidationMessage For="@(() => taskModel.Title)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="description" class="col-sm-2 col-form-label">
+            Description
+        </label>
+        <div class="col-sm-10">
+            <InputTextArea id="description" class="form-control" placeholder="Description"
+            @bind-Value="taskModel.Description" />
+            <ValidationMessage For="@(() => taskModel.Description)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="email" class="col-sm-2 col-form-label">
+            Deadline
+        </label>
+        <div class="col-sm-10">
+            <InputDate id="email" class="form-control" placeholder="Deadline"
+            @bind-Value="taskModel.Deadline" />
+            <ValidationMessage For="@(() => taskModel.Deadline)" />
+        </div>
+    </div>
+    <center>
+        <button class="form-control btn btn-success" type="button" @onclick="async () => await Register()" style="width:40%;">Add task</button>
+    </center>
+    
+</EditForm>
 
 
 @code {
