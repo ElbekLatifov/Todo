@@ -1,5 +1,8 @@
+using FluentValidation;
 using TaskAPI.Context;
+using TaskAPI.Models;
 using TaskAPI.Services;
+using TaskAPI.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,7 @@ builder.Services.AddSwaggerGen();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddDbContext<AppDbContext>();
 builder.Services.AddScoped<ITaskService, TaskService>();
+builder.Services.AddScoped<IValidator<TaskModel>, TaskValidator>(); 
 
 var app = builder.Build();
 

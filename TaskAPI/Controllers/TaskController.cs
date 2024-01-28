@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using TaskAPI.Entities;
 using TaskAPI.Models;
 using TaskAPI.Services;
+using TaskAPI.Validators;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,10 +14,12 @@ namespace TaskAPI.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskService _taskService;
+        private IValidator<TaskModel> validator;
 
-        public TaskController(ITaskService taskService)
+        public TaskController(ITaskService taskService, IValidator<TaskModel> rules)
         {
             _taskService = taskService;
+            validator = rules;
         }
 
         // GET: api/<TaskController>
@@ -36,15 +40,26 @@ namespace TaskAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TaskModel value)
         {
-            var taskid = await _taskService.AddTaskAsync(value);
-            return Created("", new {id = taskid});
+            var result = validator.Validate(value);
+            if(result.IsValid)
+            {
+                var taskid = await _taskService.AddTaskAsync(value);
+                return Created("", new { id = taskid });
+            }
+            
+            return BadRequest(result);
         }
 
         // PUT api/<TaskController>/5
         [HttpPut("{id}")]
         public async System.Threading.Tasks.Task Put(Guid id, [FromBody] TaskModel value)
         {
-            await _taskService.UpdateTaskAsync(id, value);
+            var result = validator.Validate(value);
+            if(result.IsValid)
+            {
+                await _taskService.UpdateTaskAsync(id, value);
+            }
+            
         }
 
         // DELETE api/<TaskController>/5

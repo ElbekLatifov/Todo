@@ -19,7 +19,6 @@ namespace TaskAPI.Services
                 Title = value.Title,
                 Description = value.Description,
                 Deadline = value.Deadline,
-                Priority = value.Priority,
                 State = value.State
             };
 
@@ -52,7 +51,6 @@ namespace TaskAPI.Services
             oldtask.Title = value.Title;
             oldtask.Description = value.Description;
             oldtask.Deadline = value.Deadline      ;
-            oldtask.Priority = value.Priority      ;
             oldtask.State = value.State;
             _context.Tasks.Update(oldtask);
             await _context.SaveChangesAsync();

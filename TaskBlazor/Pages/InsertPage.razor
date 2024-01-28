@@ -1,20 +1,37 @@
 ﻿@page "/add"
 @inject NavigationManager navMn
 @inject HttpClient client
+@using Newtonsoft.Json;
+@using System.Text.Json.Serialization;
 @using TaskBlazor.Models
+@using System.Net
 
 
 <h3>InsertPage</h3>
 
-<form style="width: 400px ;margin: auto">
+<EditForm Model="taskModel">
+    <DataAnnotationsValidator/>
+    <div>
+        <label for="Title" class="form-label">Title</label>
+        <InputText @bind-Value="taskModel.Title" class="form-control"></InputText>
+        <ValidationMessage For="() => taskModel.Title" />
+        <label for="Desciption" class="form-label">Description</label>
+        <InputTextArea @bind-Value="taskModel.Description" class="form-control"></InputTextArea>
+        <ValidationMessage For="() => taskModel.Description"/>
+        <InputDate @bind-Value="taskModel.Deadline"/>
+        <button class="form-control btn btn-success" type="button" @onclick="async () => await Register()">Add task</button>
+    </div>
+    
+</EditForm>
+
+@* <form style="width: 400px ;margin: auto">
     <div class="form-floating mb-3">
         <input @bind="taskModel.Title" type="text" class="form-control" id="floatingInput" placeholder="Task name">
         <input @bind="taskModel.Description" type="text" class="form-control" id="floatingInput" placeholder="Task discription">
-        <input @bind="taskModel.Priority" type="text" class="form-control" id="floatingInput" placeholder="Task priority">
         <input @bind="taskModel.Deadline" type="datetime" class="form-control" id="floatingInput" placeholder="Task deadline">
     </div>
-    <button class="form-control btn btn-success" type="button" @onclick="async () => await Register()">Add task</button>
-</form>
+    
+</form> *@
 
 @code {
     public TaskModel taskModel = new TaskModel();
@@ -22,12 +39,16 @@
     private async Task Register()
     {
         var response = await client.PostAsJsonAsync("http://localhost:7701/api/Task", taskModel);
+
+        if(response.StatusCode != System.Net.HttpStatusCode.Created)
+        {
+            
+        }
+
         if (response.IsSuccessStatusCode)
         {
             navMn.NavigateTo("/tasks");
         }
     }
-
-    
 
 }
