@@ -25,6 +25,17 @@ services:
     networks:
        - api_network
 
+
+  task_blazor:
+    image: task_blazor
+    container_name: task_blazor
+    build:
+      context: TaskBlazor
+      dockerfile: Dockerfile
+    ports:
+      - '4405:80'
+    networks:
+       - api_network
 volumes:
    task_db_data:
    
