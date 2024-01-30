@@ -2,6 +2,7 @@
 @inject NavigationManager nav
 @inject HttpClient client
 @using TaskBlazor.Entities
+@using TaskBlazor.Models
 
 <PageTitle>Shops</PageTitle>
 <h1 style="text-align:center;">Tasks</h1>
@@ -26,35 +27,55 @@ else
 {
     <ul class="list-group list-group-flush">
         
-            @foreach (var taskcha in task!)
+            @foreach (var taskcha in formModels!)
             {
             <li class="list-group-item">
                 <div class="row" style="display:flex; justify-content:center; width: 100%;">
                     <div class="col" style="width: 40%; display:flex; justify-content:left;">
-                        <h5 style="text-align:left; left:0; text-decoration-style:dotted">@taskcha.Title</h5>
+                        <h5 style="text-align:left; padding-top: 10px; text-decoration:double;">@taskcha.Title</h5>
                     </div>
                     <div class="col" style="width: 20%">
                         <h6 style="text-align:center; color:gray; padding-top: 10px;">@taskcha.State</h6>
                     </div>
                     <div class="col" style="width: 30%; right:0; left:auto; display:flex; justify-content:right;">
                         <button @onclick="()=> GoToTask(taskcha.Id)" class="btn btn-primary" style="margin: 5px; height:35px;">Details</button>
-                        <button @onclick="async ()=> await Delete(taskcha.Id)" class="btn btn-danger" style="margin: 5px; height:35px;">Delete</button>
+                        <button class="btn btn-danger" @onclick="() => {taskcha.IsDeadClick = true;}" style="margin: 5px; height:35px;">Delete</button>
                         <button @onclick="()=> Update(taskcha.Id)" class="btn btn-success" style="margin: 5px; height:35px;">Update</button>
                     </div>
                 </div>
+                @if (taskcha.IsDeadClick)
+                {
+                    <div class="alert alert-danger row" role="alert">
+                        <p class="col" style="width: 60%; margin-right:50px;">Are you sure want to delete this task?</p>
+                        <button class="col btn btn-info" @onclick="()=>{taskcha.IsDeadClick = false;}" style="width: 20%">No</button>
+                        <button class="col btn btn-secondary" @onclick="async ()=> await Delete(taskcha.Id)" style="width: 20%">Yes</button>
+                    </div>
+                }
             </li>
             }
        
-    </ul>
-    
+    </ul>    
 }
 
 @code {
     public List<Entities.Task>? task = new List<Entities.Task>();
+    private List<FormModel> formModels = new List<FormModel>();
+
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
         task = await client.GetFromJsonAsync<List<Entities.Task>>("http://localhost:7701/api/Task");
+
+        for(int i=0; i<task.Count;i++)
+        {
+            FormModel form = new FormModel();
+            form.Id = task[i].Id;
+            form.Title = task[i].Title;
+            form.Description = task[i].Description;
+            form.Deadline = task[i].Deadline;
+            form.State = task[i].State;
+            formModels.Add(form);
+        }
     }
 
     void PutMe()
@@ -71,6 +92,7 @@ else
     private async System.Threading.Tasks.Task Delete(Guid id)
     {
         await client.DeleteAsync($"http://localhost:7701/api/Task/{id}");
+        formModels = new List<FormModel>();
         await OnInitializedAsync();
     }
 

@@ -3,11 +3,14 @@ using TaskBlazor.Entities;
 
 namespace TaskBlazor.Models
 {
-    public class TaskModel
+    public class FormModel
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
         public State State { get; set; }
-        public DateTime Deadline { get; set; } 
+        [Required(ErrorMessage = "Enter date")]
+        public DateTime Deadline { get; set; } = DateTime.Now;
+        public bool IsDeadClick { get; set; } = false;
     }
 }

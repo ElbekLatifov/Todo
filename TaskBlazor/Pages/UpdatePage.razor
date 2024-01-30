@@ -64,10 +64,6 @@
 
     private async Task Update()
     {
-        if (taskModel.Description == null) taskModel.Description = task.Description;
-        if (taskModel.Title == string.Empty) taskModel.Title = task.Title;
-        if (taskModel.Deadline == null) taskModel.Deadline = task.Deadline;
-
         await Client.PutAsJsonAsync<TaskModel>($"http://localhost:7701/api/Task/{Id}", taskModel);
         Navigate.NavigateTo("/tasks");
     }
