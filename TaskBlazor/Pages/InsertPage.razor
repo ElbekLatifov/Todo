@@ -10,76 +10,6 @@
     <h3>New Task</h3>
 </center><br />
 
-@* <EditForm Model="taskModel">
-    <div class="row">
-        <div class="col">
-            <div class="mb-sm-6">
-                <label for="exampleFormControlTextarea1" class="form-label">Title</label>
-                <input @bind-value="taskModel.Title" type="text" class="form-control" id="exampleFormControlInput1" placeholder="name">
-            </div>
-        </div>
-
-        <div class="col mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Deadline</label>
-            <input @bind-value="taskModel.Deadline" type="datetime" class="form-control">
-        </div>
-    </div> <br />
-    <div class="mb-3">
-        <label for="exampleFormControlTextarea1" class="form-label">Description</label>
-        <InputTextArea class="form-control" @bind-Values="taskModel.Description"></InputTextArea>
-    </div>
-    <center>
-        <button class="form-control btn btn-success" type="button" @onclick="async () => await Register()" style="width:50%; margin-top: 50px;">Add task</button>
-    </center>
-</EditForm> *@
-<Button OnClick="e => ModalSm = true">Small</Button>
-<Button OnClick="e => ModalLg = true">Large</Button>
-<Button OnClick="e => ModalXl = true">Extra Large</Button>
-
-<!--Modal result-->
-<br/><br/>
-<span>Small Dialog was opened @CountSm times.</span><br/>
-<span>Large Dialog was opened @CountLg times.</span><br/>
-
-<!--Modals-->
-<Modal Open="ModalMd">
-    <ModalTitle>Default Modal</ModalTitle>
-    <ModalBody><p>This is the default modal size...</p></ModalBody>
-    <ModalFooter>
-        <Button Variant="Outline" OnClick="e => ModalMd = false">Cancel</Button>
-        <Button Variant="Primary" OnClick="e => ModalMd = false">Ok</Button>
-    </ModalFooter>
-</Modal>
-
-<Modal Open="ModalSm" Size="ModalSize.Small" OpenChanged="(open) => { if (open) { CountSm++; }}">
-    <ModalTitle>Small Modal</ModalTitle>
-    <ModalBody><p>I am a small modal...</p></ModalBody>
-    <ModalFooter>
-        <Button Variant="Outline" OnClick="e => ModalSm = false">Cancel</Button>
-        <Button Variant="Primary" OnClick="e => ModalSm = false">Ok</Button>
-    </ModalFooter>
-</Modal>
-
-<!--Two way binding-->
-<Modal @bind-Open="ModalLg" Size="ModalSize.Large">
-    <ModalTitle>Large Modal</ModalTitle>
-    <ModalBody><p>I am a large modal...</p></ModalBody>
-    <ModalFooter>
-        <Button Variant="Outline" OnClick="e => ModalLg = false">Cancel</Button>
-        <Button Variant="Primary" OnClick="e => ModalLg = false">Ok</Button>
-    </ModalFooter>
-</Modal>
-
-<Modal Open="ModalXl" Size="ModalSize.ExtraLarge">
-    <ModalTitle>Extra Large Modal</ModalTitle>
-    <ModalBody><p>I am an Extra large modal...</p></ModalBody>
-    <ModalFooter>
-        <Button Variant="Outline" OnClick="e => ModalXl = false">Cancel</Button>
-        <Button Variant="Primary" OnClick="e => ModalXl = false">Ok</Button>
-    </ModalFooter>
-</Modal>
-
-
 <EditForm Model="taskModel">
     <DataAnnotationsValidator />
     <hr />
@@ -99,7 +29,7 @@
                     Deadline
                 </label>
                 <div class="mb-sm-10">
-                    <InputDate Type="InputDateType.DateTimeLocal" id="email" class="form-control" placeholder="Deadline"
+                    <InputDate Type="InputDateType.DateTimeLocal" class="form-control" placeholder="Deadline"
                     @bind-Value="taskModel.Deadline" />
                     <ValidationMessage For="@(() => taskModel.Deadline)" />
                 </div>

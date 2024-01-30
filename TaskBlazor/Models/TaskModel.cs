@@ -7,10 +7,9 @@ namespace TaskBlazor.Models
     {
         [Required(ErrorMessage = "Enter title")]
         public string Title { get; set; }
-        [Required(ErrorMessage = "Enter description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public State State { get; set; }
         [Required(ErrorMessage = "Enter date")]
-        public DateTime Deadline { get; set; }
+        public DateTime Deadline { get; set; } = DateTime.Now;
     }
 }

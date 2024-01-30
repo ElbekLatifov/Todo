@@ -34,12 +34,13 @@
             Deadline
         </label>
         <div class="col-sm-10">
-            <InputDate id="date" class="form-control" placeholder="Deadline"
+            <InputDate Type="InputDateType.DateTimeLocal" id="date" class="form-control" placeholder="Deadline"
             @bind-Value="taskModel.Deadline" />
         </div>
     </div>
-    <center>
-        <button class="form-control btn btn-success" type="button" @onclick="async () => await Update()" style="width:40%;">Update</button>
+    <center class="row">
+        <button class="form-control btn btn-success col" type="button" @onclick="async () => await Update()" style="width:20%;">Update</button>
+        <button class="form-control btn btn-success col" type="button" @onclick="async () => Back()" style="width:20%;">Update</button>
     </center>
    
 </EditForm>
@@ -50,20 +51,29 @@
 @code {
     [Parameter]
     public Guid Id { get; set; }
-    public List<Entities.Task>? tasks = new List<Entities.Task>();
     public Entities.Task? task = new Entities.Task();
-
     private TaskModel taskModel = new TaskModel();
 
     protected override async System.Threading.Tasks.Task OnInitializedAsync()
     {
-        tasks = await Client.GetFromJsonAsync<List<Entities.Task>>("http://localhost:7701/api/Task");
         task = await Client.GetFromJsonAsync<Entities.Task>($"http://localhost:7701/api/Task/{Id}");
+        taskModel.Title = task.Title;
+        taskModel.Description = task.Description;
+        taskModel.Deadline = task.Deadline;
     }
 
     private async Task Update()
     {
+        if (taskModel.Description == null) taskModel.Description = task.Description;
+        if (taskModel.Title == string.Empty) taskModel.Title = task.Title;
+        if (taskModel.Deadline == null) taskModel.Deadline = task.Deadline;
+
         await Client.PutAsJsonAsync<TaskModel>($"http://localhost:7701/api/Task/{Id}", taskModel);
+        Navigate.NavigateTo("/tasks");
+    }
+
+    private void Back()
+    {
         Navigate.NavigateTo("/tasks");
     }
 }
