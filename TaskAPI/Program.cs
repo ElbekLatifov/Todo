@@ -1,4 +1,6 @@
 using FluentValidation;
+using Serilog;
+using Serilog.Events;
 using TaskAPI.Context;
 using TaskAPI.Middlewares;
 using TaskAPI.Models;
@@ -7,11 +9,11 @@ using TaskAPI.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//var logger = new LoggerConfiguration()
-//    .WriteTo.File("log.txt", LogEventLevel.Information, rollingInterval: RollingInterval.Day)
-//    .CreateLogger();
+var logger = new LoggerConfiguration()
+    .WriteTo.File("log.txt", LogEventLevel.Error, rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
-//builder.Logging.AddSerilog(logger);
+builder.Logging.AddSerilog(logger);
 
 // Add services to the container.
 

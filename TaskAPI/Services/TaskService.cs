@@ -42,7 +42,7 @@ namespace TaskAPI.Services
 
         public async Task<List<Entities.Task>> GetTasksAsync()
         {
-            return await _context.Tasks.ToListAsync();
+            return await _context.Tasks.OrderBy(p=>p.Deadline).ToListAsync();
         }
 
         public async System.Threading.Tasks.Task UpdateTaskAsync(Guid id, TaskModel value)
