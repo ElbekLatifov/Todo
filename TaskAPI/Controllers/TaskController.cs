@@ -14,12 +14,14 @@ namespace TaskAPI.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskService _taskService;
+        private ILogger _logger;
         private IValidator<TaskModel> validator;
 
-        public TaskController(ITaskService taskService, IValidator<TaskModel> rules)
+        public TaskController(ITaskService taskService, IValidator<TaskModel> rules, ILogger<TaskController> logger)
         {
             _taskService = taskService;
             validator = rules;
+            _logger = logger;
         }
 
         // GET: api/<TaskController>
@@ -46,7 +48,7 @@ namespace TaskAPI.Controllers
                 var taskid = await _taskService.AddTaskAsync(value);
                 return Created("", new { id = taskid });
             }
-            
+            _logger.LogError("Error with create task", result.Errors);
             return BadRequest(result);
         }
 
@@ -66,7 +68,8 @@ namespace TaskAPI.Controllers
         [HttpDelete("{id}")]
         public async System.Threading.Tasks.Task Delete(Guid id)
         {
-            await _taskService.DeleteTaskAsync(id); 
+            await _taskService.DeleteTaskAsync(id);
+            _logger.LogWarning($"Task deleted with id : {id}");
         }
     }
 }
