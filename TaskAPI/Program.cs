@@ -1,5 +1,6 @@
 using FluentValidation;
 using TaskAPI.Context;
+using TaskAPI.Middlewares;
 using TaskAPI.Models;
 using TaskAPI.Services;
 using TaskAPI.Validators;
@@ -33,7 +34,7 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseMiddleware<ErrorHandlerMiddleware>();
 app.MapControllers();
 
 app.UseCors(options=>

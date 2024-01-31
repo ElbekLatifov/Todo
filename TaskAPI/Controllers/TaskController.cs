@@ -14,7 +14,7 @@ namespace TaskAPI.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskService _taskService;
-        private ILogger _logger;
+        private ILogger<TaskController> _logger;
         private IValidator<TaskModel> validator;
 
         public TaskController(ITaskService taskService, IValidator<TaskModel> rules, ILogger<TaskController> logger)
