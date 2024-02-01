@@ -15,12 +15,12 @@
     <hr />
     <div class="row">
             <div class="col">
-                <label for="title" class="col-sm-2 col-form-label">
+                <label for="Title" class="col-sm-2 col-form-label">
                     Title
                 </label>
                 <div class="mb-sm-10">
-                    <InputText id="title" class="form-control" placeholder="Task title"
-                    @bind-Value="taskModel.Title" />
+                    <InputText id="Title" class="form-control" placeholder="Task title"
+                    @bind-Value="taskModel.Title"/>
                     <ValidationMessage For="@(() => taskModel.Title)" />
                 </div>
             </div>
@@ -29,8 +29,8 @@
                     Deadline
                 </label>
                 <div class="mb-sm-10">
-                    <InputDate Type="InputDateType.DateTimeLocal" class="form-control" placeholder="Deadline"
-                    @bind-Value="taskModel.Deadline" />
+                <InputDate Type="InputDateType.DateTimeLocal" class="form-control"
+                @bind-Value="taskModel.Deadline" TValue="DateTime"/>
                     <ValidationMessage For="@(() => taskModel.Deadline)" />
                 </div>
             </div>
@@ -47,6 +47,11 @@
             </div>
     </div>
     <center>
+       @*  @if(ErrorMessage is not null)
+        {
+            <h6 style="color: red;">@ErrorMessage</h6>
+            <br />
+        } *@
         <button class="form-control btn btn-success" type="button" @onclick="async () => await Register()" style="width:40%;">Add task</button>
     </center>
     
@@ -55,6 +60,12 @@
 
 @code {
     public TaskModel taskModel = new TaskModel();
+    private string? ErrorMessage = null;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
 
     private async Task Register()
     {
@@ -62,7 +73,7 @@
 
         if(response.StatusCode != System.Net.HttpStatusCode.Created)
         {
-            
+            ErrorMessage = response.Content.ReadAsStringAsync().Result;
         }
 
         if (response.IsSuccessStatusCode)
