@@ -14,7 +14,7 @@ namespace TaskBlazor.Models
         public State State { get; set; }
         [Required(ErrorMessage = "Deadline must be greater than now!")]
         [DateLessThanOrEqualToToday]
-        public DateTime Deadline { get; set; }
+        public DateTime? Deadline { get; set; }
     }
 
     public class DateLessThanOrEqualToToday : ValidationAttribute

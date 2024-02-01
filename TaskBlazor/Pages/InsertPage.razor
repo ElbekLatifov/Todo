@@ -30,7 +30,7 @@
                 </label>
                 <div class="mb-sm-10">
                 <InputDate Type="InputDateType.DateTimeLocal" class="form-control"
-                @bind-Value="taskModel.Deadline" TValue="DateTime"/>
+                @bind-Value="taskModel.Deadline"/>
                     <ValidationMessage For="@(() => taskModel.Deadline)" />
                 </div>
             </div>
@@ -64,7 +64,7 @@
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
+        taskModel.Deadline = null;
     }
 
     private async Task Register()
